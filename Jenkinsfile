@@ -14,9 +14,16 @@ pipeline {
 
     }
 
+    stage('Set environment'){
+      agent any
+      steps {
+        sh ""
+      }
+    }
+
     stage('Podman build / push') {
       steps {
-        sh "echo $ECR_CREDENTIALS | podman login --username AWS --password-stdin --verbose public.ecr.aws/e5d0c9b0"
+        sh 'echo $ECR_CREDENTIALS | podman login --username AWS public.ecr.aws/e5d0c9b0 --password-stdin'
         sh "podman build -t $H2O_IMAGE_URL" + "_latest --tls-verify=true ."
         sh "podman push $H2O_IMAGE_URL" + "_latest"
       }
