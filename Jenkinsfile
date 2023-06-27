@@ -15,20 +15,20 @@ pipeline {
 
     }
 
-    stage('Set environment'){
-      agent any
-      steps {
-        sh 'export http_proxy="$PROXY_URL"'
-        sh 'export https_proxy="$PROXY_URL"'
-        sh 'export ftp_proxy="$PROXY_URL"'
-        sh 'export no_proxy="127.0.0.1,localhost"'
-        sh 'export HTTP_PROXY="$PROXY_URL"'
-        sh 'export HTTPS_PROXY="$PROXY_URL"'
-        sh 'export FTP_PROXY="$PROXY_URL"'
-        sh 'export NO_PROXY="127.0.0.1,localhost"'
-        sh 'systemctl restart podman'
-      }
-    }
+    // stage('Set environment'){
+    //   agent any
+    //   steps {
+    //     sh 'export http_proxy="$PROXY_URL"'
+    //     sh 'export https_proxy="$PROXY_URL"'
+    //     sh 'export ftp_proxy="$PROXY_URL"'
+    //     sh 'export no_proxy="127.0.0.1,localhost"'
+    //     sh 'export HTTP_PROXY="$PROXY_URL"'
+    //     sh 'export HTTPS_PROXY="$PROXY_URL"'
+    //     sh 'export FTP_PROXY="$PROXY_URL"'
+    //     sh 'export NO_PROXY="127.0.0.1,localhost"'
+    //     sh 'systemctl restart podman'
+    //   }
+    // }
 
     stage('Podman build / push') {
       steps {
