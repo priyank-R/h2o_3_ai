@@ -16,7 +16,7 @@ pipeline {
 
     stage('Podman build / push') {
       steps {
-        sh "podman build -t $H2O_IMAGE_URL" + "_latest --tls-verify=true."
+        sh "podman build -t $H2O_IMAGE_URL" + "_latest --tls-verify=true ."
         sh "podman push $H2O_IMAGE_URL" + "_latest"
       }
     agent any
