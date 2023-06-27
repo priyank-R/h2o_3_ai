@@ -27,7 +27,7 @@ pipeline {
     stage('Podman build / push') {
       steps {
         withEnv(['HTTP_PROXY=http://10.154.248.91:8080/', 'HTTPS_PROXY=http://10.154.248.91:8080/']) {
-        sh "podman build --http-proxy -t $H2O_IMAGE_URL" + "_latest ."
+        sh "podman build --build-arg http_proxy=http://10.154.248.91:8080/ https_proxy=http://10.154.248.91:8080/ -t $H2O_IMAGE_URL" + "_latest ."
         sh "podman push $H2O_IMAGE_URL" + "_latest"
       }
       }
