@@ -4,7 +4,6 @@ pipeline {
     GITHUB_URL= 'https://github.com/priyank-R/h2o_3_ai.git'
     H2O_IMAGE_URL = 'public.ecr.aws/e5d0c9b0/hpc_hpe:h2o_3_ai'
     ECR_CREDENTIALS = credentials('public.ecr.aws_e5d0c9b0')
-    // HTTP_PROXY = 'http://10.154.248.91:8080/'
   }
   stages {
     stage('Checkout') {
@@ -15,20 +14,6 @@ pipeline {
 
     }
 
-    // stage('Set environment'){
-    //   agent any
-    //   steps {
-    //     sh 'export http_proxy="$PROXY_URL"'
-    //     sh 'export https_proxy="$PROXY_URL"'
-    //     sh 'export ftp_proxy="$PROXY_URL"'
-    //     sh 'export no_proxy="127.0.0.1,localhost"'
-    //     sh 'export HTTP_PROXY="$PROXY_URL"'
-    //     sh 'export HTTPS_PROXY="$PROXY_URL"'
-    //     sh 'export FTP_PROXY="$PROXY_URL"'
-    //     sh 'export NO_PROXY="127.0.0.1,localhost"'
-    //     sh 'systemctl restart podman'
-    //   }
-    // }
 
     stage('Podman build / push') {
       steps {
