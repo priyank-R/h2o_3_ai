@@ -3,7 +3,7 @@ pipeline {
   environment {
     GITHUB_URL= 'https://github.com/priyank-R/h2o_3_ai.git'
     H2O_IMAGE_URL = 'public.ecr.aws/e5d0c9b0/hpc_hpe:h2o_3_ai'
-
+    ECR_CREDENTIALS = credentials('public.ecr.aws_e5d0c9b0')
   }
   stages {
     stage('Checkout') {
@@ -16,6 +16,7 @@ pipeline {
 
     stage('Podman build / push') {
       steps {
+        sh "echo $ECR_CREDENTIALS | docker login --username AWS --password-stdin public.ecr.aws/e5d0c9b0"
         sh "podman build -t $H2O_IMAGE_URL" + "_latest --tls-verify=true ."
         sh "podman push $H2O_IMAGE_URL" + "_latest"
       }
