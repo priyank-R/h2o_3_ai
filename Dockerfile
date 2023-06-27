@@ -64,7 +64,7 @@ RUN \
 WORKDIR \
   /home/h2o
 
-COPY ./test.csv /home/h2o
+#COPY ./test.csv /home/h2o
 
 EXPOSE 54321
 EXPOSE 54322
