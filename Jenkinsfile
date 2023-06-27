@@ -10,7 +10,7 @@ pipeline {
       steps {
         git branch: 'master', url: "$GITHUB_URL"
       }
-    agent none
+    agent any
 
     }
 
@@ -19,7 +19,7 @@ pipeline {
         sh "podman build -t $H2O_IMAGE_URL:latest ."
         sh "podman push $H2O_IMAGE_URL:latest"
       }
-    agent none
+    agent any
 
     }
 
@@ -30,7 +30,7 @@ pipeline {
         sh "podman rm -f h2o3ai"
         sh "podman run -p 54321:54321 -p 54322:54322 --name h2o3ai -dit $H2O_IMAGE_URL:latest"
       }
-    agent none
+    agent any
 
     }
 
