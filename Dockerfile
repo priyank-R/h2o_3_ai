@@ -53,7 +53,7 @@ USER h2o
 RUN \
   cd && \
   wget https://raw.githubusercontent.com/h2oai/h2o-3/master/docker/start-h2o-docker.sh && \
-  chmod +x start-h2o-docker.shx 
+  chmod +x start-h2o-docker.sh 
 
 
 # Define a mountable data directory
