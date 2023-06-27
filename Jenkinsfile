@@ -16,8 +16,8 @@ pipeline {
 
     stage('Podman build / push') {
       steps {
-        sh "podman build -t $H2O_IMAGE_URL:latest ."
-        sh "podman push $H2O_IMAGE_URL:latest"
+        sh "podman build -t $H2O_IMAGE_URL" + "_latest"
+        sh "podman push $H2O_IMAGE_URL" + "_latest"
       }
     agent any
 
@@ -25,10 +25,10 @@ pipeline {
 
     stage('Podman pull and run') {
       steps {
-        sh "podman pull $H2O_IMAGE_URL:latest"
+        sh "podman pull $H2O_IMAGE_URL" + "_latest"
         sh "podman stop h2o3ai"
         sh "podman rm -f h2o3ai"
-        sh "podman run -p 54321:54321 -p 54322:54322 --name h2o3ai -dit $H2O_IMAGE_URL:latest"
+        sh "podman run -p 54321:54321 -p 54322:54322 --name h2o3ai -dit $H2O_IMAGE_URL" + "_latest"
       }
     agent any
 
