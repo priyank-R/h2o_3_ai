@@ -3,7 +3,8 @@
 ########################################################################
 #version h2o_priyank:3.0
 # pull base image
-FROM ubuntu:16.04
+FROM public.ecr.aws/e5d0c9b0/hpc_hpe:ubuntu_16.04
+
 
 # maintainer details
 MAINTAINER h2oai "h2o.ai"

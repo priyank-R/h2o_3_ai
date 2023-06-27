@@ -1,52 +1,30 @@
 pipeline {
   agent none
   environment {
-    DOCKERHUB_CREDENTIALS = credentials('dockerhub_id')
-    GITHUB_CREDENTIALS = credentials('github_id')
-    REVISION = 24
-    HARBOR_CREDENTIALS = credentials('harbor_id')
+    GITHUB_URL= 'https://github.com/priyank-R/h2o_3_ai.git'
+    H2O_IMAGE_URL = 'public.ecr.aws/e5d0c9b0/hpc_hpe:h2o_3_ai'
 
   }
   stages {
     stage('Checkout') {
       steps {
-        git branch: 'main', url: 'https://github.com/RutikKalokhe/Image-Identification-Backend.git'
+        git branch: 'master', url: "$GITHUB_URL"
       }
     }
 
-    stage('Docker build') {
+    stage('Podman build / push') {
       steps {
-        sh "docker image prune -af"
-        sh "docker image build -t 20.21.104.152/imageidentification/imagebackidentification:$REVISION ."
-        sh "docker image tag 20.21.104.152/imageidentification/imagebackidentification:$REVISION sumithpe/imagebackidentification:$REVISION"
+        sh "podman build -t $H2O_IMAGE_URL:latest ."
+        sh "podman push $H2O_IMAGE_URL:latest"
       }
     }
 
-    stage('Push to harbor & docker') {
+    stage('Podman pull and run') {
       steps {
-        sh 'echo $HARBOR_CREDENTIALS_PSW | docker login 20.21.104.152 -u $HARBOR_CREDENTIALS_USR --password-stdin'
-        sh "docker image push 20.21.104.152/imageidentification/imagebackidentification:$REVISION"
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-        sh "docker image push sumithpe/imagebackidentification:$REVISION"
-      }
-    }
-
-    stage('Git update') {
-      steps {
-        script {
-          catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-            sh ''
-            '
-            cd / home / hpe / imageidentification / imageidentificationconfig
-            git pull https: //"$GITHUB_CREDENTIALS_USR":"$GITHUB_CREDENTIALS_PSW"@github.com/sumit871996/imageidentificationconfig.git
-              sh backendscript.sh "$REVISION"
-            git add.
-            git commit - m "updated backend deployment file"
-            git push https: //"$GITHUB_CREDENTIALS_USR":"$GITHUB_CREDENTIALS_PSW"@github.com/sumit871996/imageidentificationconfig.git
-              ''
-            '
-          }
-        }
+        sh "podman pull $H2O_IMAGE_URL:latest"
+        sh "podman stop h2o3ai"
+        sh "podman rm -f h2o3ai"
+        sh "podman run -p 54321:54321 -p 54322:54322 --name h2o3ai -dit $H2O_IMAGE_URL:latest"
       }
     }
 
