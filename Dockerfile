@@ -14,6 +14,15 @@ MAINTAINER h2oai "h2o.ai"
 # update/dist-upgrade
 # clear the caches
 
+RUN \
+  export HTTP_PROXY="http://10.154.248.91:8080/" && \
+  export HTTPS_PROXY="http://10.154.248.91:8080/" && \
+  export FTP_PROXY="http://10.154.248.91:8080/" && \
+  export no_proxy="127.0.0.1,localhost" && \
+  export HTTP_PROXY="http://10.154.248.91:8080/" && \
+  export HTTPS_PROXY="http://10.154.248.91:8080/" && \
+  export FTP_PROXY="http://10.154.248.91:8080/" && \
+  export NO_PROXY="127.0.0.1,localhost"
 
 RUN \
   echo 'DPkg::Post-Invoke {"/bin/rm -f /var/cache/apt/archives/*.deb || true";};' | tee /etc/apt/apt.conf.d/no-cache && \
