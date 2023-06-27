@@ -19,7 +19,7 @@ pipeline {
       steps {
         withEnv(['HTTP_PROXY=http://10.154.248.91:8080/', 'HTTPS_PROXY=http://10.154.248.91:8080/']) {
         sh 'echo $ECR_CREDENTIALS | podman login --username AWS public.ecr.aws/e5d0c9b0 --password-stdin'
-        sh "podman build -t $H2O_IMAGE_URL" + "_latest ."
+        sh "podman build --http-proxy -t $H2O_IMAGE_URL" + "_latest ."
         sh "podman push $H2O_IMAGE_URL" + "_latest"
       }
       }
