@@ -1,0 +1,13 @@
+version: "3.1"
+
+services:
+  h2o:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: h2o_three:latest
+    container_name: h2o
+    restart: always
+    ports:
+      - 54321:54321
+      - 54322:54322
