@@ -39,8 +39,8 @@ pipeline {
       steps {
          withEnv(['HTTP_PROXY=http://10.154.248.91:8080/', 'HTTPS_PROXY=http://10.154.248.91:8080/']) {
         sh "podman pull $H2O_IMAGE_URL" + "_latest"
-        sh "podman stop h2o3ai"
-        sh "podman rm -f h2o3ai"
+        sh "podman stop --ignore h2o3ai"
+        sh "podman rm --ignore -f h2o3ai"
         sh "podman run -p 54321:54321 -p 54322:54322 --name h2o3ai -dit $H2O_IMAGE_URL" + "_latest"
       }
       }
